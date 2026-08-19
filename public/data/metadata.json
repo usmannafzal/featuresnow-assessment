@@ -1,0 +1,223 @@
+{
+  "row_count": 38903,
+  "fields": {
+    "transaction_id": {
+      "type": "string",
+      "null_count": 0,
+      "distinct_count": 38903
+    },
+    "txn_date_time": {
+      "type": "string",
+      "null_count": 0,
+      "distinct_count": 38612
+    },
+    "txn_ts": {
+      "type": "number",
+      "null_count": 0,
+      "min": 1727721484000,
+      "max": 1748165188000
+    },
+    "sender_account_id": {
+      "type": "string",
+      "null_count": 0,
+      "distinct_count": 108
+    },
+    "receiver_account_id": {
+      "type": "number",
+      "null_count": 13,
+      "min": 17201992,
+      "max": 996000355218110
+    },
+    "amount": {
+      "type": "number",
+      "null_count": 0,
+      "min": 0,
+      "max": 16187765
+    },
+    "currency": {
+      "type": "string",
+      "null_count": 0,
+      "domain": {
+        "PAB": 27256,
+        "USD": 5840,
+        "MXN": 1916,
+        "BRL": 1615,
+        "COP": 1119,
+        "CRC": 751,
+        "GTQ": 406
+      }
+    },
+    "amount_usd": {
+      "type": "number",
+      "null_count": 0,
+      "min": 0,
+      "max": 9008.44
+    },
+    "transaction_type": {
+      "type": "string",
+      "null_count": 616,
+      "domain": {
+        "online": 27622,
+        "contactless": 8826,
+        "chip_and_pin": 1391,
+        "refund": 437,
+        "internal": 11
+      }
+    },
+    "merchant_city": {
+      "type": "string",
+      "null_count": 0,
+      "domain": {
+        "Ciudad de Panamá": 4220,
+        "San Miguelito": 4179,
+        "David": 4173,
+        "Tocumen": 4086,
+        "Las Cumbres": 2812,
+        "Penonome": 2764,
+        "Pacora": 2756,
+        "Chitré": 2721,
+        "Arraiján": 2720,
+        "Santiago": 2665,
+        "Monterrey": 418,
+        "Puebla": 396,
+        "Ciudad de México": 378,
+        "Guadalajara": 369,
+        "Tijuana": 355,
+        "Fortaleza": 350,
+        "São Paulo": 329,
+        "Brasília": 321,
+        "Salvador": 309,
+        "Rio de Janeiro": 306,
+        "Bogotá": 252,
+        "Barranquilla": 244,
+        "Cali": 226,
+        "Cartagena": 201,
+        "Medellín": 196,
+        "Alajuela": 164,
+        "San José": 163,
+        "Puntarenas": 149,
+        "Heredia": 140,
+        "Cartago": 135,
+        "Petapa": 85,
+        "Villa Nueva": 85,
+        "Ciudad de Guatemala": 84,
+        "Mixco": 84,
+        "San Juan Sacatepéquez": 68
+      }
+    },
+    "merchant_country": {
+      "type": "string",
+      "null_count": 0,
+      "domain": {
+        "PAN": 33096,
+        "MEX": 1916,
+        "BRA": 1615,
+        "COL": 1119,
+        "CRI": 751,
+        "GTM": 406
+      }
+    },
+    "merchant_description_condensed": {
+      "type": "string",
+      "null_count": 0,
+      "distinct_count": 421
+    },
+    "hour_of_day": {
+      "type": "number",
+      "null_count": 0,
+      "min": 0,
+      "max": 23
+    },
+    "day_of_week": {
+      "type": "number",
+      "null_count": 0,
+      "min": 0,
+      "max": 6
+    },
+    "transaction_count_as_provided": {
+      "type": "number",
+      "null_count": 0,
+      "min": 1,
+      "max": 1514
+    },
+    "avg_transaction_amount_as_provided": {
+      "type": "number",
+      "null_count": 0,
+      "min": 0,
+      "max": 1483304.39
+    },
+    "merchant_avg_transaction_amount_as_provided": {
+      "type": "number",
+      "null_count": 0,
+      "min": 0,
+      "max": 7688945
+    },
+    "sender_prior_txn_count": {
+      "type": "number",
+      "null_count": 0,
+      "min": 0,
+      "max": 1513
+    },
+    "sender_prior_avg_amount_usd": {
+      "type": "number",
+      "null_count": 108,
+      "min": 0,
+      "max": 3288.9908257575808
+    },
+    "sender_txn_count_1h": {
+      "type": "number",
+      "null_count": 0,
+      "min": 0,
+      "max": 69
+    },
+    "sender_txn_count_24h": {
+      "type": "number",
+      "null_count": 0,
+      "min": 0,
+      "max": 104
+    },
+    "amount_vs_prior_avg_ratio": {
+      "type": "number",
+      "null_count": 122,
+      "min": 0,
+      "max": 993.8333333333334
+    },
+    "sender_modal_country": {
+      "type": "string",
+      "null_count": 0,
+      "domain": {
+        "PAN": 38899,
+        "MEX": 2,
+        "BRA": 2
+      }
+    },
+    "sender_type_share": {
+      "type": "number",
+      "null_count": 616,
+      "min": 0.0012391573729863693,
+      "max": 1
+    },
+    "sender_country_share": {
+      "type": "number",
+      "null_count": 0,
+      "min": 0.0031645569620253164,
+      "max": 1
+    },
+    "is_cross_border": {
+      "type": "boolean",
+      "null_count": 0,
+      "domain": {
+        "false": 33096,
+        "true": 5807
+      }
+    },
+    "features_disagree_with_chronology": {
+      "type": "boolean",
+      "null_count": 0,
+      "domain": {
+        "true": 38126,
+        "false": 777
+      }
+    }
+  }
+}

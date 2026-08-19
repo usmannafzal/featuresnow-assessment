@@ -1,0 +1,132 @@
+[
+  {
+    "rule_id": "RULE_001",
+    "name": "High Value Transaction Alert",
+    "description": "Flag transactions with an amount greater than a specified threshold.",
+    "action": "Alert",
+    "severity": "High",
+    "parameters": {
+      "min_amount_usd": { "type": "number", "default": 10000, "min": 0, "max": 20000, "step": 100 }
+    },
+    "condition": {
+      "op": "AND",
+      "children": [
+        { "field": "amount_usd", "operator": "gt", "value": "$min_amount_usd" }
+      ]
+    },
+    "limitations": "amount_usd uses static FX estimates, so a large native COP amount can sit well below this USD threshold."
+  },
+  {
+    "rule_id": "RULE_002",
+    "name": "Multiple Small Transactions in Short Period",
+    "description": "Identify users with a high frequency of small transactions within a short time frame.",
+    "action": "Review",
+    "severity": "Medium",
+    "parameters": {
+      "max_amount_usd": { "type": "number", "default": 50, "min": 0, "max": 1000, "step": 5 },
+      "min_count_1h": { "type": "number", "default": 5, "min": 2, "max": 50, "step": 1 }
+    },
+    "condition": {
+      "op": "AND",
+      "children": [
+        { "field": "amount_usd", "operator": "lt", "value": "$max_amount_usd" },
+        { "field": "sender_txn_count_1h", "operator": "gte", "value": "$min_count_1h" }
+      ]
+    },
+    "limitations": "The 1h window count is not filtered by amount, so a burst of large transactions also satisfies clause 2."
+  },
+  {
+    "rule_id": "RULE_003",
+    "name": "Unusual Transaction Type for User",
+    "description": "Flag transactions where the type is unusual for a given user's historical patterns.",
+    "action": "Investigate",
+    "severity": "Medium",
+    "parameters": {
+      "max_type_share": { "type": "number", "default": 0.05, "min": 0, "max": 1, "step": 0.01 },
+      "min_history": { "type": "number", "default": 20, "min": 0, "max": 200, "step": 1 }
+    },
+    "condition": {
+      "op": "AND",
+      "children": [
+        { "field": "sender_type_share", "operator": "lt", "value": "$max_type_share" },
+        { "field": "sender_prior_txn_count", "operator": "gte", "value": "$min_history" }
+      ]
+    },
+    "limitations": "Share is computed over the sender's full history, including the current row, so the first time a type appears it is already counted in the share."
+  },
+  {
+    "rule_id": "RULE_004",
+    "name": "Transaction to High-Risk Merchant",
+    "description": "Alert on transactions made to merchants identified as high-risk.",
+    "action": "Block",
+    "severity": "Critical",
+    "parameters": {
+      "blocked_tiers": { "type": "array", "default": ["high", "critical"] }
+    },
+    "condition": {
+      "op": "AND",
+      "children": [
+        { "field": "merchant_risk_tier", "operator": "in", "value": "$blocked_tiers" }
+      ]
+    },
+    "limitations": "merchant_risk_tier is not in the dataset, and merchant-risk.json ships empty, so this rule cannot evaluate."
+  },
+  {
+    "rule_id": "RULE_005",
+    "name": "Cross-Border Transaction Anomaly",
+    "description": "Flag transactions where the merchant country is different from the user's typical transaction countries and the amount is significant.",
+    "action": "Alert",
+    "severity": "High",
+    "parameters": {
+      "max_country_share": { "type": "number", "default": 0.05, "min": 0, "max": 1, "step": 0.01 },
+      "min_amount_usd": { "type": "number", "default": 1000, "min": 0, "max": 10000, "step": 50 }
+    },
+    "condition": {
+      "op": "AND",
+      "children": [
+        { "field": "is_cross_border", "operator": "eq", "value": true },
+        { "field": "sender_country_share", "operator": "lte", "value": "$max_country_share" },
+        { "field": "amount_usd", "operator": "gte", "value": "$min_amount_usd" }
+      ]
+    },
+    "limitations": "Typical country is the sender's modal merchant_country over full history, so a sender who mostly shops abroad will not be flagged for those countries."
+  },
+  {
+    "rule_id": "RULE_006",
+    "name": "Transaction Outside Normal Hours",
+    "description": "Identify transactions occurring outside typical business hours for the user's timezone.",
+    "action": "Review",
+    "severity": "Low",
+    "parameters": {
+      "start_hour": { "type": "number", "default": 22, "min": 0, "max": 23, "step": 1 },
+      "end_hour": { "type": "number", "default": 6, "min": 0, "max": 23, "step": 1 }
+    },
+    "condition": {
+      "op": "OR",
+      "children": [
+        { "field": "hour_of_day", "operator": "gte", "value": "$start_hour" },
+        { "field": "hour_of_day", "operator": "lte", "value": "$end_hour" }
+      ]
+    },
+    "limitations": "The overnight window wraps midnight, so the clauses are OR (hour >= 22 OR hour <= 6), not AND."
+  },
+  {
+    "rule_id": "RULE_007",
+    "name": "Large Cash Withdrawal",
+    "description": "Flag large cash withdrawals from ATMs.",
+    "action": "Alert",
+    "severity": "High",
+    "parameters": {
+      "atm_types": { "type": "array", "default": ["atm_withdrawal"] },
+      "min_amount_usd": { "type": "number", "default": 500, "min": 0, "max": 10000, "step": 50 }
+    },
+    "condition": {
+      "op": "AND",
+      "children": [
+        { "field": "transaction_type", "operator": "in", "value": "$atm_types" },
+        { "field": "amount_usd", "operator": "gte", "value": "$min_amount_usd" }
+      ]
+    },
+    "limitations": "The type domain has no ATM or withdrawal category, so clause 1 can never pass on this dataset."
+  }
+]

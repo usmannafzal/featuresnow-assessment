@@ -1,0 +1,4 @@
+{
+  "high_risk_receiver_ids": [],
+  "note": "Empty by default. RULE_004 needs this merchant risk list and the dataset does not contain it."
+}
