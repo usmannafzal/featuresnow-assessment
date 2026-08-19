@@ -1,0 +1,12 @@
+{
+  "comment": "Static FX estimates used to convert amount to USD. These are approximate, not live rates.",
+  "rates": {
+    "PAB": 1.0,
+    "USD": 1.0,
+    "MXN": 0.054,
+    "BRL": 0.18,
+    "COP": 0.00024,
+    "CRC": 0.0019,
+    "GTQ": 0.13
+  }
+}
